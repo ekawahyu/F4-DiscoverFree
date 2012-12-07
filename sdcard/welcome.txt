@@ -11,6 +11,5 @@ Welcome to Aisenke's
  |_| \_\___/|_.__/\___/ \__|_|\___|___/
 
 For further information check:
-http://www.aisenke.com
-http://www.nodino.cc
+http://www.aisenke.com/nodinorobotics
 
