@@ -318,7 +318,7 @@ int main(void)
 	setvbuf(stdout, NULL, _IONBF, 0);
 	setvbuf(stderr, NULL, _IONBF, 0);
 
-	printf("\nF4-DiscoverFree is initializing system...\n");
+	printf("\nF4-DiscoverFree system init...\n");
 
 	/* Configure ADC DMA for accelerometer reading */
 	printf("configuring ADCs...\n");
@@ -428,7 +428,7 @@ int main(void)
 	servo_motor[SERVO26].current_position = 150;
 	servo_config(SERVO26);
 
-	printf("reading welcome message from microSD card...\n\n");
+	printf("reading welcome.txt on microSD card...\n\n");
 	res = f_open(&fil, "welcome.txt", FA_READ);
 
 	if (res == FR_OK) {
