@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file    stm32f4_discovery_sdio_sd.c
+  * @file    sdio_sd.c
   * @author  MCD Application Team
   * @version V1.0.2
   * @date    05-March-2012
   * @brief   This file provides a set of functions needed to manage the SDIO SD
-  *          Card memory mounted on STM32F4 Discovery board.
+  *          Card memory mounted on F4-DiscoverFree board.
   *
   *
   *  @verbatim
@@ -15,12 +15,12 @@
   *          ===================================================================
   *          It implements a high level communication layer for read and write
   *          from/to this memory. The needed STM32 hardware resources (SDIO and
-  *          GPIO) are defined in stm32f4_discovery.h file, and the initialization is
-  *          performed in SD_LowLevel_Init() function declared in stm32f4_discovery.c
+  *          GPIO) are defined in sdio.h file, and the initialization is
+  *          performed in sdio_config() function declared in sdio.c
   *          file.
   *          You can easily tailor this driver to any other development board,
   *          by just adapting the defines for hardware resources and
-  *          SD_LowLevel_Init() function.
+  *          sdio_config() function.
   *
   *          A - SD Card Initialization and configuration
   *          ============================================
@@ -31,7 +31,7 @@
   *              1 - Apply the SD Card initialization process at 400KHz and check
   *                  the SD Card type (Standard Capacity or High Capacity). You
   *                  can change or adapt this frequency by adjusting the
-  *                  "SDIO_INIT_CLK_DIV" define inside the stm32f4_discovery.h file.
+  *                  "SDIO_INIT_CLK_DIV" define inside the sdio.h file.
   *                  The SD Card frequency (SDIO_CK) is computed as follows:
   *
   *                     +---------------------------------------------+
@@ -48,7 +48,7 @@
   *              3 - Configure the SD Card Data transfer frequency. By Default,
   *                  the card transfer frequency is set to 24MHz. You can change
   *                  or adapt this frequency by adjusting the "SDIO_TRANSFER_CLK_DIV"
-  *                  define inside the stm32f4_discovery.h file.
+  *                  define inside the sdio.h file.
   *                  The SD Card frequency (SDIO_CK) is computed as follows:
   *
   *                     +---------------------------------------------+
@@ -75,7 +75,7 @@
   *           - The SD_ReadBlock() function read only one block (512-byte). This
   *             function can transfer the data using DMA controller or using
   *             polling mode. To select between DMA or polling mode refer to
-  *             "SD_DMA_MODE" or "SD_POLLING_MODE" inside the stm32f4_discovery_sdio_sd.h
+  *             "SD_DMA_MODE" or "SD_POLLING_MODE" inside the sdio_sd.h
   *             file and uncomment the corresponding line. By default the SD DMA
   *             mode is selected
   *           - The SD_ReadMultiBlocks() function read only mutli blocks (multiple
@@ -101,7 +101,7 @@
   *           - The SD_WriteBlock() function write only one block (512-byte). This
   *             function can transfer the data using DMA controller or using
   *             polling mode. To select between DMA or polling mode refer to
-  *             "SD_DMA_MODE" or "SD_POLLING_MODE" inside the stm32f4_discovery_sdio_sd.h
+  *             "SD_DMA_MODE" or "SD_POLLING_MODE" inside the sdio_sd.h
   *             file and uncomment the corresponding line. By default the SD DMA
   *             mode is selected
   *           - The SD_WriteMultiBlocks() function write only mutli blocks (multiple

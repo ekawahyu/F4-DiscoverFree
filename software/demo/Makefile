@@ -1,9 +1,10 @@
 # put your all of your source code *.c here
 
-SRCS = 	main.c stm32f4xx_it.c system_stm32f4xx.c syscalls.c \
+SRCS = 	main.c stm32f4xx_it.c system_stm32f4xx.c \
 		ff.c diskio.c sdio.c sdio_sd.c \
-		led.c button.c adc.c usart.c \
-		vs1053b.c \
+		clock.c led.c button.c adc.c usart.c \
+		usb_bsp.c usbd_desc.c usbd_usr.c \
+		vs1053b.c servo.c
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 
@@ -17,22 +18,24 @@ CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
 SIZE=arm-none-eabi-size
 
-CFLAGS  = -g -O2 -Wall -Tstm32f4xx.ld 
+CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld 
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
-DEFINES = -DUSE_STDPERIPH_DRIVER
+DEFINES = -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS
 
 ###################################################
 
-vpath %.c src
+vpath %.c src sys sys/f4df
 vpath %.a lib
 
 ROOT=$(shell pwd)
 
-CFLAGS += -Iinc -Ilib/cmsis/inc -Ilib/peripherals/inc
+CFLAGS += -Iinc -Ilib/cmsis/inc -Ilib/peripherals/inc -Ilib/usb/inc
+CFLAGS += -Isys/include
 
 SRCS += lib/startup_stm32f4xx.s
+SRCS += syscalls.c times.c sleep.c
 
 OBJS = $(SRCS:.c=.o)
 

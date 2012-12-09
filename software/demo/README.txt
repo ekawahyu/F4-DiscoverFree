@@ -2,14 +2,22 @@
 Demo Firmware for F4-DiscoverFree Board
 =======================================
 
-To build and install the demonstration firmware, you need to install:
+F4-DiscoverFree board comes pre-installed with a demo firmware to show:
 
-1. Toolchains to generate binary for STM32F407IGT6.
-2. Software flasher/programmer.
-3. F4-DiscoverFree board by Aisenke.
+1. Turning on/off 4 LEDs.
+2. Accelerometer navigation in 3 axis.
+3. Loading and playing ogg/mp3 music from micro SD card.
+4. RC/Servo motor control up to 26 motors.
 
 
-Building the firmware and flashing it from terminal application:
+In case you want to build and modify the demonstration firmware, you need to:
+
+1. Own a PC or Mac computer with Windows, Linux or Mac OS X.
+2. Install an ARM Cortex-M4 toolchains to generate binary for F4-DiscoverFree board.
+3. OpenOCD to flash the firmware to F4-DiscoverFree.
+
+
+How to build the firmware and flashing it from terminal application:
 
 1. export PATH=/where/you/install/your/toolchain:$PATH
 2. export OPENOCD_SHARE=/where/your/openocd/share

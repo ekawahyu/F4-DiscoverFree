@@ -36,9 +36,9 @@
 
 #include "adc.h"
 
-__IO uint16_t ADC1ConvertedValue = 0;
-__IO uint16_t ADC2ConvertedValue = 0;
-__IO uint16_t ADC3ConvertedValue = 0;
+__IO uint16_t ADC1ConvertedValue = 1800;
+__IO uint16_t ADC2ConvertedValue = 1800;
+__IO uint16_t ADC3ConvertedValue = 1800;
 
 void ADC1_CH8_DMA_Config(void)
 {

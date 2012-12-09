@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32f4_discovery_sdio_sd.h
+  * @file    sdio_sd.h
   * @author  MCD Application Team
   * @version V1.0.2
   * @date    05-March-2012
@@ -27,8 +27,8 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32F4_DISCOVERY_SDIO_SD_H
-#define __STM32F4_DISCOVERY_SDIO_SD_H
+#ifndef __SDIO_SD_H
+#define __SDIO_SD_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -318,8 +318,8 @@ typedef struct
 
 /* Uncomment the following line to select the SDIO Data transfer mode */
 #if !defined (SD_DMA_MODE) && !defined (SD_POLLING_MODE)
-/*#define SD_DMA_MODE                                ((uint32_t)0x00000000)*/
-#define SD_POLLING_MODE                            ((uint32_t)0x00000002)
+#define SD_DMA_MODE                                ((uint32_t)0x00000000)
+/*#define SD_POLLING_MODE                            ((uint32_t)0x00000002) */
 #endif
 
 /**
@@ -385,7 +385,7 @@ SD_Error SD_WaitWriteOperation(void);
 }
 #endif
 
-#endif /* __STM32F4_DISCOVERY_SDIO_SD_H */
+#endif /* __SDIO_SD_H */
 /**
   * @}
   */

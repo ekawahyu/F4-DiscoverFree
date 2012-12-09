@@ -30,6 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
 #include "sdio_sd.h"
+#include "clock.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -137,6 +138,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+	systick_handler(0);
 }
 
 /**

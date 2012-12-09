@@ -39,20 +39,23 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "compiler.h"
+
+#include "clock.h"
 #include "led.h"
-#include "button.h"
 #include "adc.h"
 #include "usart.h"
+#include "button.h"
 #include "vs1053b.h"
+#include "servo.h"
 #include "ff.h"
 
 #define DEMO_LED				0
 #define DEMO_OGG_PLAYER			1
 #define DEMO_ACCELEROMETER		2
+#define DEMO_SERVO				3
 
 #define NUMBER_OF_SONGS			10
-
-#define DELAY_CONST				0x00FFFFFF
 
 typedef struct {
 	char * filename;
@@ -75,56 +78,45 @@ FATFS fs32;
 
 void led_show_transition(void)
 {
-	volatile uint32_t delay;
-
 	led_on(LED1);
 	led_on(LED2);
 	led_on(LED3);
 	led_on(LED4);
 
-	delay = DELAY_CONST;
-	while(delay--);
+	Sleep(500);
 
 	led_off(LED1);
 	led_off(LED2);
 	led_off(LED3);
 	led_off(LED4);
 
-	delay = DELAY_CONST;
-	while(delay--);
+	Sleep(500);
 }
 
 void demo_led(void)
 {
-	volatile uint32_t delay;
-
 	led_on(LED1);
 
-	delay = DELAY_CONST >> 1;
-	while(delay--);
+	Sleep(500);
 
 	led_on(LED2);
 
-	delay = DELAY_CONST >> 1;
-	while(delay--);
+	Sleep(500);
 
 	led_on(LED3);
 
-	delay = DELAY_CONST >> 1;
-	while(delay--);
+	Sleep(500);
 
 	led_on(LED4);
 
-	delay = DELAY_CONST >> 1;
-	while(delay--);
+	Sleep(500);
 
 	led_off(LED1);
 	led_off(LED2);
 	led_off(LED3);
 	led_off(LED4);
 
-	delay = DELAY_CONST >> 1;
-	while(delay--);
+	Sleep(500);
 
 	if (button_getstate(BUTTON_S2) == 1) {
 
@@ -170,8 +162,6 @@ void demo_accelerometer(void)
 
 void demo_ogg_player(void)
 {
-	volatile uint32_t delay;
-
 	BYTE Buffer[32];
 	UINT BytesRead;
 
@@ -236,10 +226,10 @@ void demo_ogg_player(void)
 
 			if (button_getstate(BUTTON_S2) == 1) {
 
-				printf("Entering LED Demo...\n");
+				printf("Entering SERVO Demo...\n");
 				led_show_transition();
 				while(button_getstate(BUTTON_S2) == 1);
-				demo_mode = DEMO_LED;
+				demo_mode = DEMO_SERVO;
 				break;
 			}
 
@@ -259,11 +249,56 @@ void demo_ogg_player(void)
 
 		res = f_close(&fil);
 
-		delay = DELAY_CONST;
-		while(delay--);
+		Sleep(1000);
 
 		if (song_index < 0) song_index = NUMBER_OF_SONGS - 1;
 		if (song_index > NUMBER_OF_SONGS -1 ) song_index = 0;
+	}
+}
+
+void demo_servo(void)
+{
+	static int i = 100;
+	static int dir = 0;
+
+	if (dir) i++; else i--;
+	if (i > 200) dir = 0;
+	if (i < 100) dir = 1;
+
+	servo_move(SERVO1, i);
+	servo_move(SERVO2, i);
+	servo_move(SERVO3, i);
+	servo_move(SERVO4, i);
+	servo_move(SERVO5, i);
+	servo_move(SERVO6, i);
+	servo_move(SERVO7, i);
+	servo_move(SERVO8, i);
+	servo_move(SERVO9, i);
+	servo_move(SERVO10, i);
+	servo_move(SERVO11, i);
+	servo_move(SERVO12, i);
+	servo_move(SERVO13, i);
+	servo_move(SERVO14, i);
+	servo_move(SERVO15, i);
+	servo_move(SERVO16, i);
+	servo_move(SERVO17, i);
+	servo_move(SERVO18, i);
+	servo_move(SERVO19, i);
+	servo_move(SERVO20, i);
+	servo_move(SERVO21, i);
+	servo_move(SERVO22, i);
+	servo_move(SERVO23, i);
+	servo_move(SERVO24, i);
+	servo_move(SERVO25, i);
+	servo_move(SERVO26, i);
+	Sleep(5);
+
+	if (button_getstate(BUTTON_S2) == 1) {
+
+		printf("Entering LED Demo...\n");
+		led_show_transition();
+		while(button_getstate(BUTTON_S2) == 1);
+		demo_mode = DEMO_LED;
 	}
 }
 
@@ -271,6 +306,9 @@ int main(void)
 {
 	BYTE Buffer[128];
 	UINT BytesRead;
+
+	/* Configure system tick at 10 us */
+	systick_device_config(CLOCKS_PER_SEC);
 
 	/* Configure serial port as terminal */
 	usart_config();
@@ -328,6 +366,68 @@ int main(void)
 	psong++->filename = "ogg/track09.ogg";
 	psong++->filename = "ogg/track10.ogg";
 
+	/* Configure servo motor ports */
+	printf("configuring servo motors...\n");
+
+	servo_motor[SERVO1].current_position = 150;
+	servo_config(SERVO1);
+	servo_motor[SERVO2].current_position = 150;
+	servo_config(SERVO2);
+	servo_motor[SERVO3].current_position = 150;
+	servo_config(SERVO3);
+	servo_motor[SERVO4].current_position = 150;
+	servo_config(SERVO4);
+
+	servo_motor[SERVO5].current_position = 150;
+	servo_config(SERVO5);
+	servo_motor[SERVO6].current_position = 150;
+	servo_config(SERVO6);
+	servo_motor[SERVO7].current_position = 150;
+	servo_config(SERVO7);
+	servo_motor[SERVO8].current_position = 150;
+	servo_config(SERVO8);
+
+	servo_motor[SERVO9].current_position = 150;
+	servo_config(SERVO9);
+	servo_motor[SERVO10].current_position = 150;
+	servo_config(SERVO10);
+	servo_motor[SERVO11].current_position = 150;
+	servo_config(SERVO11);
+	servo_motor[SERVO12].current_position = 150;
+	servo_config(SERVO12);
+
+	servo_motor[SERVO13].current_position = 150;
+	servo_config(SERVO13);
+	servo_motor[SERVO14].current_position = 150;
+	servo_config(SERVO14);
+	servo_motor[SERVO15].current_position = 150;
+	servo_config(SERVO15);
+	servo_motor[SERVO16].current_position = 150;
+	servo_config(SERVO16);
+
+	servo_motor[SERVO17].current_position = 150;
+	servo_config(SERVO17);
+	servo_motor[SERVO18].current_position = 150;
+	servo_config(SERVO18);
+	servo_motor[SERVO19].current_position = 150;
+	servo_config(SERVO19);
+	servo_motor[SERVO20].current_position = 150;
+	servo_config(SERVO20);
+
+	servo_motor[SERVO21].current_position = 150;
+	servo_config(SERVO21);
+	servo_motor[SERVO22].current_position = 150;
+	servo_config(SERVO22);
+	servo_motor[SERVO23].current_position = 150;
+	servo_config(SERVO23);
+	servo_motor[SERVO24].current_position = 150;
+	servo_config(SERVO24);
+
+	servo_motor[SERVO25].current_position = 150;
+	servo_config(SERVO25);
+	servo_motor[SERVO26].current_position = 150;
+	servo_config(SERVO26);
+
 	printf("reading welcome message from microSD card...\n\n");
 	res = f_open(&fil, "welcome.txt", FA_READ);
 
@@ -359,6 +459,10 @@ int main(void)
 
 		if (demo_mode == DEMO_OGG_PLAYER) {
 			demo_ogg_player();
+		}
+
+		if (demo_mode == DEMO_SERVO) {
+			demo_servo();
 		}
 	}
 }
