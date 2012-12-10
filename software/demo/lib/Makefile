@@ -23,7 +23,7 @@ SRCS = misc.c stm32f4xx_dma.c stm32f4xx_rcc.c stm32f4xx_adc.c \
 	stm32f4xx_dac.c stm32f4xx_i2c.c stm32f4xx_wwdg.c \
 	stm32f4xx_dbgmcu.c stm32f4xx_iwdg.c \
 	stm32f4xx_dcmi.c stm32f4xx_pwr.c \
-	usb_core.c usb_dcd_int.c usb_dcd.c usbd_core.c usbd_ioreq.c usbd_req.c     
+	usb_core.c usb_dcd_int.c usb_dcd.c usbd_core.c usbd_hid_core.c usbd_ioreq.c usbd_req.c     
 
 OBJS = $(SRCS:.c=.o)
 

@@ -50,12 +50,19 @@
 #include "servo.h"
 #include "ff.h"
 
+#include "usbd_hid_core.h"
+#include "usbd_usr.h"
+#include "usbd_desc.h"
+
 #define DEMO_LED				0
 #define DEMO_OGG_PLAYER			1
 #define DEMO_ACCELEROMETER		2
 #define DEMO_SERVO				3
+#define DEMO_USB_HID			4
 
 #define NUMBER_OF_SONGS			10
+
+USB_OTG_CORE_HANDLE  USB_OTG_dev;
 
 typedef struct {
 	char * filename;
@@ -295,11 +302,74 @@ void demo_servo(void)
 
 	if (button_getstate(BUTTON_S2) == 1) {
 
-		printf("Entering LED Demo...\n");
+		printf("Entering USB HID Demo...\n");
 		led_show_transition();
 		while(button_getstate(BUTTON_S2) == 1);
-		demo_mode = DEMO_LED;
+		demo_mode = DEMO_USB_HID;
 	}
+}
+
+void demo_usb_hid(void)
+{
+	uint8_t mouse_buffer[4] = {0};
+
+	USBD_Init(&USB_OTG_dev, USB_OTG_FS_CORE_ID, &USR_desc, &USBD_HID_cb, &USR_cb);
+
+	while(button_getstate(BUTTON_S2) == 0) {
+
+		mouse_buffer[0] = 0;
+		mouse_buffer[1] = 0;
+		mouse_buffer[2] = 0;
+		mouse_buffer[3] = 0;
+
+		if (ADC1ConvertedValue > 1900) {
+
+			mouse_buffer[2] = (ADC1ConvertedValue - 1900) / 8;
+
+			led_on(LED1);
+		}
+		else led_off(LED1);
+
+		if (ADC1ConvertedValue < 1700) {
+
+			accel_volume_count++;
+
+			mouse_buffer[2] = (ADC1ConvertedValue - 1700) / 8;
+
+			led_on(LED3);
+		}
+		else led_off(LED3);
+
+		if (ADC2ConvertedValue > 1900) {
+
+			mouse_buffer[1] = (ADC2ConvertedValue - 1900) / 8;
+
+			led_on(LED4);
+		}
+		else led_off(LED4);
+
+		if (ADC2ConvertedValue < 1550) {
+
+			mouse_buffer[1] = (ADC2ConvertedValue - 1700) / 8;
+
+			led_on(LED2);
+		}
+		else led_off(LED2);
+
+		USBD_HID_SendReport (&USB_OTG_dev, mouse_buffer, 4);
+
+		Sleep(20);
+	}
+
+	/* Disconnect the USB device */
+    DCD_DevDisconnect(&USB_OTG_dev);
+    USB_OTG_StopDevice(&USB_OTG_dev);
+
+    printf("Entering LED Demo...\n");
+    led_show_transition();
+	while(button_getstate(BUTTON_S2) == 1);
+
+    demo_mode = DEMO_LED;
 }
 
 int main(void)
@@ -463,6 +533,10 @@ int main(void)
 
 		if (demo_mode == DEMO_SERVO) {
 			demo_servo();
+		}
+
+		if (demo_mode == DEMO_USB_HID) {
+			demo_usb_hid();
 		}
 	}
 }

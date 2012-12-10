@@ -7,6 +7,7 @@ F4-DiscoverFree board comes pre-installed with a demo firmware to show:
 2. Accelerometer navigation in 3 axis.
 3. Loading and playing ogg/mp3 music from micro SD card.
 4. RC/Servo motor control for up to 26 motors.
+5. USD HID Mouse using accelerometer.
 
 
 System Requirement

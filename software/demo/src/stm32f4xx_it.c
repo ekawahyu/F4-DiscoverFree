@@ -32,6 +32,13 @@
 #include "sdio_sd.h"
 #include "clock.h"
 
+#include "usb_core.h"
+#include "usbd_core.h"
+#include "usbd_hid_core.h"
+#include "usb_dcd_int.h"
+
+extern USB_OTG_CORE_HANDLE           USB_OTG_dev;
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -168,5 +175,34 @@ void SDIO_IRQHandler(void)
 {
 }
 */
+
+/**
+  * @brief  This function handles EXTI15_10_IRQ Handler.
+  * @param  None
+  * @retval None
+  */
+void OTG_FS_WKUP_IRQHandler(void)
+{
+  if(USB_OTG_dev.cfg.low_power)
+  {
+	/* Reset SLEEPDEEP and SLEEPONEXIT bits */
+	SCB->SCR &= (uint32_t)~((uint32_t)(SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk));
+
+	/* After wake-up from sleep mode, reconfigure the system clock */
+	SystemInit();
+    USB_OTG_UngateClock(&USB_OTG_dev);
+  }
+  EXTI_ClearITPendingBit(EXTI_Line18);
+}
+
+/**
+  * @brief  This function handles OTG_HS Handler.
+  * @param  None
+  * @retval None
+  */
+void OTG_FS_IRQHandler(void)
+{
+  USBD_OTG_ISR_Handler (&USB_OTG_dev);
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
