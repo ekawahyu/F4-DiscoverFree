@@ -261,6 +261,15 @@ void demo_ogg_player(void)
 		if (song_index < 0) song_index = NUMBER_OF_SONGS - 1;
 		if (song_index > NUMBER_OF_SONGS -1 ) song_index = 0;
 	}
+	else {
+
+		printf("error: reading microSD failed! (%i)\n", res);
+		printf("skipping to SERVO Demo...\n");
+		led_show_transition();
+		demo_mode = DEMO_SERVO;
+
+		return;
+	}
 }
 
 void demo_servo(void)
