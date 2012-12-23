@@ -38,7 +38,7 @@
 
 void NVIC_Configuration(void)
 {
-	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure = {0};
 
 	/* Configure the NVIC Preemption Priority Bits */
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
@@ -52,7 +52,7 @@ void NVIC_Configuration(void)
 
 void sdio_config(void)
 {
-	GPIO_InitTypeDef  GPIO_InitStructure;
+	GPIO_InitTypeDef  GPIO_InitStructure = {0};
 
 	/* Enable SDIO, DMA2 and GPIO clock */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD | SD_CARD_DETECT_GPIO_CLK, ENABLE);
@@ -95,7 +95,7 @@ void sdio_config(void)
 
 void sdio_deconfig(void)
 {
-	GPIO_InitTypeDef  GPIO_InitStructure;
+	GPIO_InitTypeDef  GPIO_InitStructure = {0};
 
 	/* Disable SDIO clock */
 	SDIO_ClockCmd(DISABLE);

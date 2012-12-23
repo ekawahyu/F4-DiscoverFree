@@ -40,10 +40,9 @@ __IO uint16_t ADC1ConvertedValue = 1800;
 __IO uint16_t ADC2ConvertedValue = 1800;
 __IO uint16_t ADC3ConvertedValue = 1800;
 
-__attribute__((optimize(0)))
 void ADC1_CH8_DMA_Config(void)
 {
-	ADC_InitTypeDef       ADC_InitStructure;
+	ADC_InitTypeDef       ADC_InitStructure = {0};
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
@@ -106,10 +105,9 @@ void ADC1_CH8_DMA_Config(void)
 	ADC_Cmd(ADC1, ENABLE);
 }
 
-__attribute__((optimize(0)))
 void ADC2_CH9_DMA_Config(void)
 {
-	ADC_InitTypeDef       ADC_InitStructure;
+	ADC_InitTypeDef       ADC_InitStructure = {0};
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
@@ -172,10 +170,9 @@ void ADC2_CH9_DMA_Config(void)
 	ADC_Cmd(ADC2, ENABLE);
 }
 
-__attribute__((optimize(0)))
 void ADC3_CH3_DMA_Config(void)
 {
-	ADC_InitTypeDef       ADC_InitStructure;
+	ADC_InitTypeDef       ADC_InitStructure = {0};
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
