@@ -40,10 +40,9 @@ __IO uint16_t accelerometer_value_x = 1800;
 __IO uint16_t accelerometer_value_y = 1800;
 __IO uint16_t accelerometer_value_z = 1800;
 
-__attribute__((optimize(0)))
 void ADC1_CH8_DMA_Config(void)
 {
-	ADC_InitTypeDef       ADC_InitStructure;
+	ADC_InitTypeDef       ADC_InitStructure = {0};
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
@@ -74,7 +73,7 @@ void ADC1_CH8_DMA_Config(void)
 	/* Configure PB0 pin as analog input */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 	/* ADC common init */
@@ -106,10 +105,9 @@ void ADC1_CH8_DMA_Config(void)
 	ADC_Cmd(ADC1, ENABLE);
 }
 
-__attribute__((optimize(0)))
 void ADC2_CH9_DMA_Config(void)
 {
-	ADC_InitTypeDef       ADC_InitStructure;
+	ADC_InitTypeDef       ADC_InitStructure = {0};
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
@@ -140,7 +138,7 @@ void ADC2_CH9_DMA_Config(void)
 	/* Configure PB1 pin as analog input */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 	/* ADC common init */
@@ -172,10 +170,9 @@ void ADC2_CH9_DMA_Config(void)
 	ADC_Cmd(ADC2, ENABLE);
 }
 
-__attribute__((optimize(0)))
 void ADC3_CH3_DMA_Config(void)
 {
-	ADC_InitTypeDef       ADC_InitStructure;
+	ADC_InitTypeDef       ADC_InitStructure = {0};
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
 	DMA_InitTypeDef       DMA_InitStructure;
 	GPIO_InitTypeDef      GPIO_InitStructure;
@@ -206,7 +203,7 @@ void ADC3_CH3_DMA_Config(void)
 	/* Configure PA3 pin as analog input */
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 	/* ADC common init */

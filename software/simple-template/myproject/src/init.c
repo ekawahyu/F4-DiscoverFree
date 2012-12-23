@@ -66,9 +66,6 @@ void audio_config(void)
 
 void system_init(void)
 {
-	BYTE Buffer[128];
-	UINT BytesRead;
-
 	/* Configure system tick */
 	systick_device_config(CLOCKS_PER_SEC);
 
@@ -87,18 +84,21 @@ void system_init(void)
 	memset(&fs32, 0, sizeof(FATFS));
 	res = f_mount(0, &fs32);
 
-	printf("reading welcome.txt on microSD card...\n\n");
-	res = f_open(&fil, "welcome.txt", FA_READ);
+	printf("done!\n\n");
 
-	if (res == FR_OK) {
-
-		do {
-			res = f_read(&fil, Buffer, sizeof(Buffer)-1, &BytesRead);
-			Buffer[BytesRead] = '\0';
-			printf("%s", Buffer);
-		} while (BytesRead);
-
-		res = f_close(&fil);
-	}
-	else printf("error: reading microSD failed! (%i)\n", res);
+	printf("Welcome to Aisenke's\n");
+	printf("  _   _          _ _\n");
+	printf(" | \\ | | ___  __| |_|___   ___\n");
+	printf(" |  \\| |/ _ \\/ _' | |  _ \\/ _ \\\n");
+	printf(" | |\\  | |_|  |_| | | | |  |_| |\n");
+	printf(" |_| \\_|\\___/\\__._|_|_| |_\\___/\n");
+	printf("  ____       _          _   _\n");
+	printf(" |  _ \\ ___ | |__  ___ | |_|_| ___ ___\n");
+	printf(" | |_| / _ \\| '_ \\/ _ \\| __| |/ __/ __|\n");
+	printf(" |  _ < |_| | |_|  |_| | |_| | |__\\__ \\\n");
+	printf(" |_| \\_\\___/|_.__/\\___/ \\__|_|\\___|___/\n");
+	printf("\n");
+	printf("For further information check:\n");
+	printf("http://www.aisenke.com/nodinorobotics\n");
+	printf("\n");
 }
