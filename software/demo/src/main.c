@@ -136,7 +136,7 @@ void demo_led(void)
 
 void demo_accelerometer(void)
 {
-	if (ADC3ConvertedValue < 1700) {
+	if (analog_read(ANALOG4) < 1800) {
 
 		led_on(LED1);
 		led_on(LED2);
@@ -145,16 +145,16 @@ void demo_accelerometer(void)
 	}
 	else {
 
-		if (ADC1ConvertedValue > 2000) led_on(LED1);
+		if (analog_read(ANALOG9) > 2200) led_on(LED1);
 		else led_off(LED1);
 
-		if (ADC1ConvertedValue < 1700) led_on(LED3);
+		if (analog_read(ANALOG9) < 1800) led_on(LED3);
 		else led_off(LED3);
 
-		if (ADC2ConvertedValue > 2000) led_on(LED4);
+		if (analog_read(ANALOG10) > 2200) led_on(LED4);
 		else led_off(LED4);
 
-		if (ADC2ConvertedValue < 1700) led_on(LED2);
+		if (analog_read(ANALOG10) < 1800) led_on(LED2);
 		else led_off(LED2);
 	}
 
@@ -189,7 +189,7 @@ void demo_ogg_player(void)
 			if (res != FR_OK)
 				break;
 
-			if (ADC1ConvertedValue > 1900) {
+			if (analog_read(ANALOG9) > 2200) {
 
 				accel_volume_count++;
 
@@ -202,7 +202,7 @@ void demo_ogg_player(void)
 			}
 			else led_off(LED1);
 
-			if (ADC1ConvertedValue < 1550) {
+			if (analog_read(ANALOG9) < 1800) {
 
 				accel_volume_count++;
 
@@ -215,7 +215,7 @@ void demo_ogg_player(void)
 			}
 			else led_off(LED3);
 
-			if (ADC2ConvertedValue > 2050) {
+			if (analog_read(ANALOG10) > 2200) {
 
 				song_index--;
 				led_on(LED4);
@@ -223,7 +223,7 @@ void demo_ogg_player(void)
 			}
 			else led_off(LED4);
 
-			if (ADC2ConvertedValue < 1550) {
+			if (analog_read(ANALOG10) < 1800) {
 
 				song_index++;
 				led_on(LED2);
@@ -331,35 +331,35 @@ void demo_usb_hid(void)
 		mouse_buffer[2] = 0;
 		mouse_buffer[3] = 0;
 
-		if (ADC1ConvertedValue > 1900) {
+		if (analog_read(ANALOG9) > 2200) {
 
-			mouse_buffer[2] = (ADC1ConvertedValue - 1900) / 8;
+			mouse_buffer[2] = (analog_read(ANALOG9) - 2200) / 8;
 
 			led_on(LED1);
 		}
 		else led_off(LED1);
 
-		if (ADC1ConvertedValue < 1700) {
+		if (analog_read(ANALOG9) < 1800) {
 
 			accel_volume_count++;
 
-			mouse_buffer[2] = (ADC1ConvertedValue - 1700) / 8;
+			mouse_buffer[2] = (analog_read(ANALOG9) - 1800) / 8;
 
 			led_on(LED3);
 		}
 		else led_off(LED3);
 
-		if (ADC2ConvertedValue > 1900) {
+		if (analog_read(ANALOG10) > 2200) {
 
-			mouse_buffer[1] = (ADC2ConvertedValue - 1900) / 8;
+			mouse_buffer[1] = (analog_read(ANALOG10) - 2200) / 8;
 
 			led_on(LED4);
 		}
 		else led_off(LED4);
 
-		if (ADC2ConvertedValue < 1550) {
+		if (analog_read(ANALOG10) < 1800) {
 
-			mouse_buffer[1] = (ADC2ConvertedValue - 1700) / 8;
+			mouse_buffer[1] = (analog_read(ANALOG10) - 1800) / 8;
 
 			led_on(LED2);
 		}
@@ -401,14 +401,9 @@ int main(void)
 
 	/* Configure ADC DMA for accelerometer reading */
 	printf("configuring ADCs...\n");
-	ADC1_CH8_DMA_Config();
-	ADC2_CH9_DMA_Config();
-	ADC3_CH3_DMA_Config();
-
-	/* Start ADC conversion */
-	ADC_SoftwareStartConv(ADC1);
-	ADC_SoftwareStartConv(ADC2);
-	ADC_SoftwareStartConv(ADC3);
+	analog_config(ANALOG4);
+	analog_config(ANALOG9);
+	analog_config(ANALOG10);
 
 	/* Configure LEDs */
 	printf("configuring LEDs...\n");

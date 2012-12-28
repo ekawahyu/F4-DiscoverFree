@@ -46,7 +46,7 @@ OBJS = $(SRCS:.c=.o)
 all: lib proj
 
 # Flash the F4-DiscoverFree using FT2232D
-burn-ft2232d:
+burn-ft2232d: all
 	openocd -s $(OPENOCD_SHARE)/scripts \
             -f interface/ft2232d.cfg \
             -f target/stm32f4x.cfg \
