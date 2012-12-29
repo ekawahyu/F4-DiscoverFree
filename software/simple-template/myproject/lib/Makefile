@@ -3,15 +3,15 @@ AR=arm-none-eabi-ar
 
 ###########################################
 
-vpath %.c src peripherals/src
+vpath %.c src peripherals/src usb/src
 
 CFLAGS  = -g -O3 -Wall
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS += -ffreestanding -nostdlib
-CFLAGS += -Iinc -Icmsis/inc -Iperipherals/inc -I../inc
+CFLAGS += -Iinc -Icmsis/inc -Iperipherals/inc -Iusb/inc -I../inc -I../usr
 
-DEFINES += -DHSE_VALUE=8000000 -DUSE_STDPERIPH_DRIVER
+DEFINES += -DHSE_VALUE=8000000 -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS
 
 SRCS = misc.c stm32f4xx_dma.c stm32f4xx_rcc.c stm32f4xx_adc.c \
 	stm32f4xx_exti.c stm32f4xx_rng.c stm32f4xx_can.c stm32f4xx_flash.c \
@@ -22,7 +22,8 @@ SRCS = misc.c stm32f4xx_dma.c stm32f4xx_rcc.c stm32f4xx_adc.c \
 	stm32f4xx_cryp_tdes.c stm32f4xx_hash_sha1.c  stm32f4xx_usart.c \
 	stm32f4xx_dac.c stm32f4xx_i2c.c stm32f4xx_wwdg.c \
 	stm32f4xx_dbgmcu.c stm32f4xx_iwdg.c \
-	stm32f4xx_dcmi.c stm32f4xx_pwr.c   
+	stm32f4xx_dcmi.c stm32f4xx_pwr.c \
+	usb_core.c usb_dcd_int.c usb_dcd.c usbd_core.c usbd_hid_core.c usbd_ioreq.c usbd_req.c     
 
 OBJS = $(SRCS:.c=.o)
 

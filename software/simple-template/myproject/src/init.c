@@ -44,24 +44,41 @@ FATFS fs32;
 
 void accelerometer_config(void)
 {
-	/* Configure ADC DMA for accelerometer reading */
-	printf("configuring accelerometer...\n");
-	ADC1_CH8_DMA_Config();
-	ADC2_CH9_DMA_Config();
-	ADC3_CH3_DMA_Config();
+	/* Configure analog inputs for accelerometer reading */
+	analog_config(ANALOG9);
+	analog_config(ANALOG10);
+	analog_config(ANALOG4);
+}
 
-	/* Start ADC conversion */
-	ADC_SoftwareStartConv(ADC1);
-	ADC_SoftwareStartConv(ADC2);
-	ADC_SoftwareStartConv(ADC3);
+uint16_t accelerometer_read(accel_t accel)
+{
+	if (accel == ACCEL_X) return analog_read(ANALOG9);
+	if (accel == ACCEL_Y) return analog_read(ANALOG10);
+	if (accel == ACCEL_Z) return analog_read(ANALOG4);
+
+	return 0;
 }
 
 void audio_config(void)
 {
 	/* Configure audio codec */
-	printf("configuring audio driver...\n");
 	vs1053b_config();
 	vs1053b_soft_reset();
+}
+
+void audio_soft_reset(void)
+{
+	vs1053b_soft_reset();
+}
+
+void audio_set_volume(uint16_t volume)
+{
+	vs1053b_set_volume(volume);
+}
+
+void audio_write_data(uint8_t * buffer)
+{
+	vs1053b_write_data(buffer);
 }
 
 void system_init(void)

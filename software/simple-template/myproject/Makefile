@@ -1,6 +1,6 @@
 # put your all of your source code *.c here
 
-SRCS = 	main.c user.c
+SRCS = 	$(wildcard usr/*.c)
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 
@@ -18,7 +18,7 @@ CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
-DEFINES = -DUSE_STDPERIPH_DRIVER
+DEFINES = -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS
 
 ###################################################
 
@@ -27,7 +27,7 @@ vpath %.a lib
 
 ROOT=$(shell pwd)
 
-CFLAGS += -Iinc -Ilib/cmsis/inc -Ilib/peripherals/inc
+CFLAGS += -Iinc -Ilib/cmsis/inc -Ilib/peripherals/inc -Ilib/usb/inc
 CFLAGS += -Isys/include -Iusr
 
 SRCS += lib/startup_stm32f4xx.s

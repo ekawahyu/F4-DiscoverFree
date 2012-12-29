@@ -44,9 +44,9 @@ void setup(void)
 void loop(void)
 {
 	printf("X = %i\tY = %i\tZ = %i\n",
-			accelerometer_value_x,
-			accelerometer_value_y,
-			accelerometer_value_z );
+			accelerometer_read(ACCEL_X),
+			accelerometer_read(ACCEL_Y),
+			accelerometer_read(ACCEL_Z) );
 
 	Sleep(100);
 }

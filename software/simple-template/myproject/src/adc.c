@@ -36,9 +36,209 @@
 
 #include "adc.h"
 
-__IO uint16_t accelerometer_value_x = 1800;
-__IO uint16_t accelerometer_value_y = 1800;
-__IO uint16_t accelerometer_value_z = 1800;
+#define ADC1_DR_ADDRESS     ((uint32_t)0x4001204C)
+#define ADC2_DR_ADDRESS     ((uint32_t)0x4001214C)
+#define ADC3_DR_ADDRESS     ((uint32_t)0x4001224C)
+
+__IO uint16_t accelerometer_value_x = 2000;
+__IO uint16_t accelerometer_value_y = 2000;
+__IO uint16_t accelerometer_value_z = 2000;
+
+__IO uint8_t adc1_configured = 0;
+__IO uint8_t adc3_configured = 0;
+
+uint16_t analog_pin[ANALOGn]       = {
+		ANALOG1_PIN,  ANALOG2_PIN,  ANALOG3_PIN,  ANALOG4_PIN,
+		ANALOG5_PIN,  ANALOG6_PIN,  ANALOG7_PIN,  ANALOG8_PIN,
+		ANALOG9_PIN,  ANALOG10_PIN, ANALOG11_PIN, ANALOG12_PIN,
+		ANALOG13_PIN, ANALOG14_PIN, ANALOG15_PIN, ANALOG16_PIN,
+		ANALOG17_PIN, ANALOG18_PIN, ANALOG19_PIN, ANALOG20_PIN,
+		ANALOG21_PIN, ANALOG22_PIN, ANALOG23_PIN, ANALOG24_PIN
+};
+
+GPIO_TypeDef* analog_gpio[ANALOGn] = {
+		ANALOG1_GPIO,  ANALOG2_GPIO,  ANALOG3_GPIO,  ANALOG4_GPIO,
+		ANALOG5_GPIO,  ANALOG6_GPIO,  ANALOG7_GPIO,  ANALOG8_GPIO,
+		ANALOG9_GPIO,  ANALOG10_GPIO, ANALOG11_GPIO, ANALOG12_GPIO,
+		ANALOG13_GPIO, ANALOG14_GPIO, ANALOG15_GPIO, ANALOG16_GPIO,
+		ANALOG17_GPIO, ANALOG18_GPIO, ANALOG19_GPIO, ANALOG20_GPIO,
+		ANALOG21_GPIO, ANALOG22_GPIO, ANALOG23_GPIO, ANALOG24_GPIO
+};
+
+uint32_t analog_gpio_clk[ANALOGn]  = {
+		ANALOG1_GPIO_CLK,  ANALOG2_GPIO_CLK,  ANALOG3_GPIO_CLK,  ANALOG4_GPIO_CLK,
+		ANALOG5_GPIO_CLK,  ANALOG6_GPIO_CLK,  ANALOG7_GPIO_CLK,  ANALOG8_GPIO_CLK,
+		ANALOG9_GPIO_CLK,  ANALOG10_GPIO_CLK, ANALOG11_GPIO_CLK, ANALOG12_GPIO_CLK,
+		ANALOG13_GPIO_CLK, ANALOG14_GPIO_CLK, ANALOG15_GPIO_CLK, ANALOG16_GPIO_CLK,
+		ANALOG17_GPIO_CLK, ANALOG18_GPIO_CLK, ANALOG19_GPIO_CLK, ANALOG20_GPIO_CLK,
+		ANALOG21_GPIO_CLK, ANALOG22_GPIO_CLK, ANALOG23_GPIO_CLK, ANALOG24_GPIO_CLK
+};
+
+uint8_t analog_channel[ANALOGn] = {
+		ANALOG1_CHANNEL,  ANALOG2_CHANNEL,  ANALOG3_CHANNEL,  ANALOG4_CHANNEL,
+		ANALOG5_CHANNEL,  ANALOG6_CHANNEL,  ANALOG7_CHANNEL,  ANALOG8_CHANNEL,
+		ANALOG9_CHANNEL,  ANALOG10_CHANNEL, ANALOG11_CHANNEL, ANALOG12_CHANNEL,
+		ANALOG13_CHANNEL, ANALOG14_CHANNEL, ANALOG15_CHANNEL, ANALOG16_CHANNEL,
+		ANALOG17_CHANNEL, ANALOG18_CHANNEL, ANALOG19_CHANNEL, ANALOG20_CHANNEL,
+		ANALOG21_CHANNEL, ANALOG22_CHANNEL, ANALOG23_CHANNEL, ANALOG24_CHANNEL
+};
+
+void adc1_config(void)
+{
+	ADC_InitTypeDef       ADC_InitStructure = {0};
+	ADC_CommonInitTypeDef ADC_CommonInitStructure;
+
+	if (adc1_configured) return;
+	else adc1_configured = 1;
+
+	/* Enable ADC1 clocks */
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+
+	/* ADC common init */
+	ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
+	ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div2;
+	ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
+	ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
+	ADC_CommonInit(&ADC_CommonInitStructure);
+
+	/* ADC1 init */
+	ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
+	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+	ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
+	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+	ADC_InitStructure.ADC_NbrOfConversion = 1;
+	ADC_Init(ADC1, &ADC_InitStructure);
+
+	ADC_EOCOnEachRegularChannelCmd(ADC1, ENABLE);
+
+	/* Enable ADC1 */
+	ADC_Cmd(ADC1, ENABLE);
+}
+
+void adc3_config(void)
+{
+	ADC_InitTypeDef       ADC_InitStructure = {0};
+	ADC_CommonInitTypeDef ADC_CommonInitStructure;
+
+	if (adc3_configured) return;
+	else adc3_configured = 1;
+
+	/* Enable ADC3 clocks */
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
+
+	/* ADC common init */
+	ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
+	ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div2;
+	ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
+	ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
+	ADC_CommonInit(&ADC_CommonInitStructure);
+
+	/* ADC3 init */
+	ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
+	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+	ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
+	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+	ADC_InitStructure.ADC_NbrOfConversion = 1;
+	ADC_Init(ADC3, &ADC_InitStructure);
+
+	ADC_EOCOnEachRegularChannelCmd(ADC3, ENABLE);
+
+	/* Enable ADC3 */
+	ADC_Cmd(ADC3, ENABLE);
+}
+
+uint16_t read_adc1(uint8_t channel)
+{
+	ADC_RegularChannelConfig(ADC1, channel, 1, ADC_SampleTime_3Cycles);
+
+	//Clear flag before conversion begins
+	ADC_ClearFlag(ADC1, ADC_FLAG_EOC);
+
+	// Start the conversion
+	ADC_SoftwareStartConv(ADC1);
+
+	// Wait until conversion completion
+	while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
+
+	// Get the conversion value
+	return ADC_GetConversionValue(ADC1);
+}
+
+uint16_t read_adc3(uint8_t channel)
+{
+	ADC_RegularChannelConfig(ADC3, channel, 1, ADC_SampleTime_3Cycles);
+
+	//Clear flag before conversion begins
+	ADC_ClearFlag(ADC3, ADC_FLAG_EOC);
+
+	// Start the conversion
+	ADC_SoftwareStartConv(ADC3);
+
+	// Wait until conversion completion
+	while(ADC_GetFlagStatus(ADC3, ADC_FLAG_EOC) == RESET);
+
+	// Get the conversion value
+	return ADC_GetConversionValue(ADC3);
+}
+
+int16_t analog_config(analog_t analog)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+
+	/* Capture wrong analog number */
+	if (analog >= ANALOGn) return -1;
+
+	if (analog >= ANALOG17)
+		adc3_config();
+	else
+		adc1_config();
+
+	/* Enable GPIO peripheral clock */
+	RCC_AHB1PeriphClockCmd(analog_gpio_clk[analog], ENABLE);
+
+	/* Configure ANALOG pin as analog input */
+	GPIO_InitStructure.GPIO_Pin = analog_pin[analog];
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_Init(analog_gpio[analog], &GPIO_InitStructure);
+
+	return 0;
+}
+
+int16_t analog_deconfig(analog_t analog)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+
+	/* Configure unused GPIO port pins in Analog Input mode (floating input
+	 * trigger OFF), this will reduce the power consumption and increase the
+	 * device immunity against EMI/EMC */
+
+	/* Capture wrong led number */
+	if (analog >= ANALOGn) return -1;
+
+	/* Configure ANALOG pin as analog input */
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+	GPIO_InitStructure.GPIO_Pin = analog_pin[analog];
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(analog_gpio[analog], &GPIO_InitStructure);
+
+	return 0;
+}
+
+int16_t analog_read(analog_t analog)
+{
+	/* Capture wrong led number */
+	if (analog >= ANALOGn) return -1;
+
+	if (analog >= ANALOG17)
+		return read_adc3(analog_channel[analog]);
+	else
+		return read_adc1(analog_channel[analog]);
+}
 
 void ADC1_CH8_DMA_Config(void)
 {

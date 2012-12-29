@@ -1,7 +1,7 @@
 /*
- * init.h
+ * usb_it.c
  *
- * Created on: Dec 12, 2012
+ * Created on: Dec 28, 2012
  *     Author: Ekawahyu Susilo
  *
  * Copyright (c) 2012, Chongqing Aisenke Electronic Technology Co., Ltd.
@@ -34,47 +34,28 @@
  * 
  */
 
-#ifndef INIT_H_
-#define INIT_H_
+#include "usb_core.h"
+#include "usbd_core.h"
+#include "usbd_hid_core.h"
+#include "usb_dcd_int.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+extern USB_OTG_CORE_HANDLE           USB_OTG_dev;
 
-#include "compiler.h"
+void OTG_FS_WKUP_IRQHandler(void)
+{
+  if(USB_OTG_dev.cfg.low_power)
+  {
+	/* Reset SLEEPDEEP and SLEEPONEXIT bits */
+	SCB->SCR &= (uint32_t)~((uint32_t)(SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk));
 
-#include "clock.h"
-#include "led.h"
-#include "adc.h"
-#include "usart.h"
-#include "button.h"
-#include "vs1053b.h"
-#include "servo.h"
-#include "ff.h"
-
-extern FRESULT res;
-extern FILINFO fno;
-extern FIL fil;
-extern DIR dir;
-extern FATFS fs32;
-
-typedef enum {
-	ACCEL_X,
-	ACCEL_Y,
-	ACCEL_Z,
-	ACCELn
-} accel_t;
-
-void accelerometer_config(void);
-uint16_t accelerometer_read(accel_t accel);
-void audio_config(void);
-void audio_soft_reset(void);
-void audio_set_volume(uint16_t volume);
-void audio_write_data(uint8_t * buffer);
-void system_init(void);
-
-#ifdef __cplusplus
+	/* After wake-up from sleep mode, reconfigure the system clock */
+	SystemInit();
+    USB_OTG_UngateClock(&USB_OTG_dev);
+  }
+  EXTI_ClearITPendingBit(EXTI_Line18);
 }
-#endif
 
-#endif /* INIT_H_ */
+void OTG_FS_IRQHandler(void)
+{
+  USBD_OTG_ISR_Handler (&USB_OTG_dev);
+}
