@@ -1,9 +1,0 @@
-eclipse.preferences.version=1
-environment/project/0.2073130404/OPENOCD_SHARE/delimiter=\:
-environment/project/0.2073130404/OPENOCD_SHARE/operation=replace
-environment/project/0.2073130404/OPENOCD_SHARE/value=/Users/nodino/arm-linaro-tools/share/openocd
-environment/project/0.2073130404/PATH/delimiter=\:
-environment/project/0.2073130404/PATH/operation=replace
-environment/project/0.2073130404/PATH/value=/Users/nodino/arm-linaro-tools/bin\:/usr/bin\:/bin\:/usr/sbin\:/sbin
-environment/project/0.2073130404/append=true
-environment/project/0.2073130404/appendContributed=true
