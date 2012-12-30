@@ -401,63 +401,58 @@ void setup(void)
 	/* Configure servo motor ports */
 	printf("configuring servo motors...\n");
 
-	servo_motor[SERVO1].position = 150;
+	servo_move(SERVO1, 150);
+	servo_move(SERVO2, 150);
+	servo_move(SERVO3, 150);
+	servo_move(SERVO4, 150);
+	servo_move(SERVO5, 150);
+	servo_move(SERVO6, 150);
+	servo_move(SERVO7, 150);
+	servo_move(SERVO8, 150);
+	servo_move(SERVO9, 150);
+	servo_move(SERVO10, 150);
+	servo_move(SERVO11, 150);
+	servo_move(SERVO12, 150);
+	servo_move(SERVO13, 150);
+	servo_move(SERVO14, 150);
+	servo_move(SERVO15, 150);
+	servo_move(SERVO16, 150);
+	servo_move(SERVO17, 150);
+	servo_move(SERVO18, 150);
+	servo_move(SERVO19, 150);
+	servo_move(SERVO20, 150);
+	servo_move(SERVO21, 150);
+	servo_move(SERVO22, 150);
+	servo_move(SERVO23, 150);
+	servo_move(SERVO24, 150);
+	servo_move(SERVO25, 150);
+	servo_move(SERVO26, 150);
+
 	servo_config(SERVO1);
-	servo_motor[SERVO2].position = 150;
 	servo_config(SERVO2);
-	servo_motor[SERVO3].position = 150;
 	servo_config(SERVO3);
-	servo_motor[SERVO4].position = 150;
 	servo_config(SERVO4);
-
-	servo_motor[SERVO5].position = 150;
 	servo_config(SERVO5);
-	servo_motor[SERVO6].position = 150;
 	servo_config(SERVO6);
-	servo_motor[SERVO7].position = 150;
 	servo_config(SERVO7);
-	servo_motor[SERVO8].position = 150;
 	servo_config(SERVO8);
-
-	servo_motor[SERVO9].position = 150;
 	servo_config(SERVO9);
-	servo_motor[SERVO10].position = 150;
 	servo_config(SERVO10);
-	servo_motor[SERVO11].position = 150;
 	servo_config(SERVO11);
-	servo_motor[SERVO12].position = 150;
 	servo_config(SERVO12);
-
-	servo_motor[SERVO13].position = 150;
 	servo_config(SERVO13);
-	servo_motor[SERVO14].position = 150;
 	servo_config(SERVO14);
-	servo_motor[SERVO15].position = 150;
 	servo_config(SERVO15);
-	servo_motor[SERVO16].position = 150;
 	servo_config(SERVO16);
-
-	servo_motor[SERVO17].position = 150;
 	servo_config(SERVO17);
-	servo_motor[SERVO18].position = 150;
 	servo_config(SERVO18);
-	servo_motor[SERVO19].position = 150;
 	servo_config(SERVO19);
-	servo_motor[SERVO20].position = 150;
 	servo_config(SERVO20);
-
-	servo_motor[SERVO21].position = 150;
 	servo_config(SERVO21);
-	servo_motor[SERVO22].position = 150;
 	servo_config(SERVO22);
-	servo_motor[SERVO23].position = 150;
 	servo_config(SERVO23);
-	servo_motor[SERVO24].position = 150;
 	servo_config(SERVO24);
-
-	servo_motor[SERVO25].position = 150;
 	servo_config(SERVO25);
-	servo_motor[SERVO26].position = 150;
 	servo_config(SERVO26);
 
 	demo_led();
