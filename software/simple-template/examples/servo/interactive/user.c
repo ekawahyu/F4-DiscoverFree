@@ -38,16 +38,16 @@
 
 void setup(void)
 {
-	servo_config(SERVO26);
+	servo_config(SERVO1);
 }
 
 void loop(void)
 {
-	int new_position;
+	int position;
 
 	printf("Enter servo position (100-200): ");
-	scanf("%i", &new_position);
-	printf("%i\n", new_position);
+	scanf("%i", &position);
+	printf("%i\n", position);
 
-	servo_motor[SERVO26].position = new_position;
+	servo_move(SERVO1, position);
 }

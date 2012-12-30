@@ -43,9 +43,9 @@ void setup(void)
 
 void loop(void)
 {
-	servo_motor[SERVO1].position = 100;
+	servo_move(SERVO1, 100);
 	Sleep(1000);
 
-	servo_motor[SERVO1].position = 200;
+	servo_move(SERVO1, 200);
 	Sleep(1000);
 }

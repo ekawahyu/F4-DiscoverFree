@@ -182,8 +182,6 @@ typedef struct {
 	uint16_t position;
 } servo_object_t;
 
-extern volatile servo_object_t servo_motor[];
-
 void servo_controller_periodic_handler(void);
 
 int16_t servo_config(servo_t servo);
