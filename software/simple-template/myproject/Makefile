@@ -15,6 +15,8 @@ OBJCOPY=arm-none-eabi-objcopy
 SIZE=arm-none-eabi-size
 
 CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld 
+#CFLAGS += -specs=nano.specs
+#CFLAGS += -u _printf_float -u _scanf_float
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
