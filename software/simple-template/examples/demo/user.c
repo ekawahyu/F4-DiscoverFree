@@ -64,7 +64,8 @@ song_t * psong = songs;
 volatile uint16_t accel_volume_count = 0;
 uint16_t accel_volume = 0x5050;
 
-void led_show_transition(void) {
+void led_show_transition(void)
+{
 	led_on(LED1);
 	led_on(LED2);
 	led_on(LED3);
@@ -80,7 +81,8 @@ void led_show_transition(void) {
 	Sleep(500);
 }
 
-void demo_led(void) {
+void demo_led(void)
+{
 	led_on(LED1);
 
 	Sleep(500);
@@ -108,20 +110,21 @@ void demo_led(void) {
 
 		printf("Entering Accelerometer Demo...\n");
 		led_show_transition();
-		while (button_getstate(BUTTON_S2) == 1)
-			;
+		while(button_getstate(BUTTON_S2) == 1);
 		demo_mode = DEMO_ACCELEROMETER;
 	}
 }
 
-void demo_accelerometer(void) {
+void demo_accelerometer(void)
+{
 	if (accelerometer_read(ACCEL_Z) < 1800) {
 
 		led_on(LED1);
 		led_on(LED2);
 		led_on(LED3);
 		led_on(LED4);
-	} else {
+	}
+	else {
 
 		if (accelerometer_read(ACCEL_X) > 2200)
 			led_on(LED1);
@@ -148,13 +151,13 @@ void demo_accelerometer(void) {
 
 		printf("Entering Music Player Demo...\n");
 		led_show_transition();
-		while (button_getstate(BUTTON_S2) == 1)
-			;
+		while(button_getstate(BUTTON_S2) == 1);
 		demo_mode = DEMO_OGG_PLAYER;
 	}
 }
 
-void demo_ogg_player(void) {
+void demo_music_player(void)
+{
 	BYTE Buffer[32];
 	UINT BytesRead;
 
@@ -183,8 +186,8 @@ void demo_ogg_player(void) {
 				}
 
 				led_on(LED1);
-			} else
-				led_off(LED1);
+			}
+			else led_off(LED1);
 
 			if (accelerometer_read(ACCEL_X) < 1800) {
 
@@ -219,13 +222,12 @@ void demo_ogg_player(void) {
 
 				printf("Entering SERVO Demo...\n");
 				led_show_transition();
-				while (button_getstate(BUTTON_S2) == 1)
-					;
+				while(button_getstate(BUTTON_S2) == 1);
 				demo_mode = DEMO_SERVO;
 				break;
 			}
 
-			audio_write_data((void*) (Buffer));
+			audio_write_data((void*)(Buffer));
 
 			if (BytesRead < sizeof(Buffer)) {
 
@@ -233,10 +235,8 @@ void demo_ogg_player(void) {
 				break;
 			}
 
-			if (accel_volume > 0xFEFE)
-				accel_volume = 0xFEFE;
-			if (accel_volume < 0x0101)
-				accel_volume = 0x0101;
+			if (accel_volume > 0xFEFE) accel_volume = 0xFEFE;
+			if (accel_volume < 0x0101) accel_volume = 0x0101;
 
 			audio_set_volume(accel_volume);
 		}
@@ -245,11 +245,10 @@ void demo_ogg_player(void) {
 
 		Sleep(1000);
 
-		if (song_index < 0)
-			song_index = song_total - 1;
-		if (song_index > song_total - 1)
-			song_index = 0;
-	} else {
+		if (song_index < 0) song_index = song_total - 1;
+		if (song_index > song_total -1 ) song_index = 0;
+	}
+	else {
 
 		printf("error: reading microSD failed! (%i)\n", res);
 		printf("skipping to SERVO Demo...\n");
@@ -260,18 +259,14 @@ void demo_ogg_player(void) {
 	}
 }
 
-void demo_servo(void) {
+void demo_servo(void)
+{
 	static int i = 100;
 	static int dir = 0;
 
-	if (dir)
-		i++;
-	else
-		i--;
-	if (i > 200)
-		dir = 0;
-	if (i < 100)
-		dir = 1;
+	if (dir) i++; else i--;
+	if (i > 200) dir = 0;
+	if (i < 100) dir = 1;
 
 	servo_move(SERVO1, i);
 	servo_move(SERVO2, i);
@@ -305,19 +300,18 @@ void demo_servo(void) {
 
 		printf("Entering USB HID Demo...\n");
 		led_show_transition();
-		while (button_getstate(BUTTON_S2) == 1)
-			;
+		while(button_getstate(BUTTON_S2) == 1);
 		demo_mode = DEMO_USB_HID;
 	}
 }
 
-void demo_usb_hid(void) {
-	uint8_t mouse_buffer[4] = { 0 };
+void demo_usb_hid(void)
+{
+	uint8_t mouse_buffer[4] = {0};
 
-	USBD_Init(&USB_OTG_dev, USB_OTG_FS_CORE_ID, &USR_desc, &USBD_HID_cb,
-			&USR_cb);
+	USBD_Init(&USB_OTG_dev, USB_OTG_FS_CORE_ID, &USR_desc, &USBD_HID_cb, &USR_cb);
 
-	while (button_getstate(BUTTON_S2) == 0) {
+	while(button_getstate(BUTTON_S2) == 0) {
 
 		mouse_buffer[0] = 0;
 		mouse_buffer[1] = 0;
@@ -369,27 +363,28 @@ void demo_usb_hid(void) {
 
 	printf("Entering LED Demo...\n");
 	led_show_transition();
-	while (button_getstate(BUTTON_S2) == 1)
-		;
+	while(button_getstate(BUTTON_S2) == 1);
 
 	demo_mode = DEMO_LED;
 }
 
-int setup_is_mp3(const char* fname) {
+int setup_is_mp3(const char* fname)
+{
 
 	int name_len = 0;
 
 	if (fname == 0 || strlen(fname) < 4) {
 		return 0;
-	} else {
+	}
+	else {
 		name_len = strlen(fname);
-
 		return fname[name_len-1] == '3';
 	}
 }
 
 
-int setup_load_music(const char* folder) {
+int setup_load_music(const char* folder)
+{
 	// define local variables , because recursive
 	FRESULT f_res;
 	FILINFO f_info;
@@ -436,7 +431,7 @@ int setup_load_music(const char* folder) {
 
 		//f_closedir(&f_dir);
 
-		return song_total >= NUMBER_OF_SONGS ? -1 : 0 ;
+		return song_total >= NUMBER_OF_SONGS ? -1 : 0;
 }
 
 void setup(void) {
@@ -465,16 +460,6 @@ void setup(void) {
 	/* Loading songs list */
 	printf("loading playlist...\n");
 	setup_load_music("music");
-//	psong++->filename = "mp3/track01.mp3";
-//	psong++->filename = "mp3/track02.mp3";
-//	psong++->filename = "mp3/track03.mp3";
-//	psong++->filename = "mp3/track04.mp3";
-//	psong++->filename = "mp3/track05.mp3";
-//	psong++->filename = "mp3/track06.mp3";
-//	psong++->filename = "mp3/track07.mp3";
-//	psong++->filename = "mp3/track08.mp3";
-//	psong++->filename = "mp3/track09.mp3";
-//	psong++->filename = "mp3/track10.mp3";
 
 	/* Configure servo motor ports */
 	printf("configuring servo motors...\n");
@@ -538,8 +523,8 @@ void setup(void) {
 	printf("Press S2 to switch between demos!\n");
 }
 
-
-void loop(void) {
+void loop(void)
+{
 	if (demo_mode == DEMO_LED) {
 		demo_led();
 	}
@@ -549,7 +534,7 @@ void loop(void) {
 	}
 
 	if (demo_mode == DEMO_OGG_PLAYER) {
-		demo_ogg_player();
+		demo_music_player();
 	}
 
 	if (demo_mode == DEMO_SERVO) {
