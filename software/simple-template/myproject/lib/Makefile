@@ -6,6 +6,7 @@ AR=arm-none-eabi-ar
 vpath %.c src peripherals/src usb/src
 
 CFLAGS  = -g -O3 -Wall
+#CFLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
 #CFLAGS += -specs=nano.specs
 #CFLAGS += -u _printf_float -u _scanf_float
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
