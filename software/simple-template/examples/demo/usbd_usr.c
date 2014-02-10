@@ -70,9 +70,7 @@ USBD_Usr_cb_TypeDef USR_cb =
   USBD_USR_DeviceResumed,
   
   USBD_USR_DeviceConnected,
-  USBD_USR_DeviceDisconnected,  
-  
-  
+  USBD_USR_DeviceDisconnected,
 };
 
 
@@ -110,7 +108,8 @@ USBD_Usr_cb_TypeDef USR_cb =
 * @retval None
 */
 void USBD_USR_Init(void)
-{   
+{
+
 }
 
 /**
@@ -143,6 +142,7 @@ void USBD_USR_DeviceReset(uint8_t speed )
 */
 void USBD_USR_DeviceConfigured (void)
 {
+
 }
 
 
@@ -154,6 +154,7 @@ void USBD_USR_DeviceConfigured (void)
 */
 void USBD_USR_DeviceConnected (void)
 {
+
 }
 
 
@@ -165,6 +166,7 @@ void USBD_USR_DeviceConnected (void)
 */
 void USBD_USR_DeviceDisconnected (void)
 {
+
 }
 
 /**
@@ -199,33 +201,3 @@ void USBD_USR_DeviceResumed(void)
 */ 
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
