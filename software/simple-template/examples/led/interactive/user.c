@@ -52,8 +52,8 @@ void loop(void)
 	answer = getchar();
 	printf("\n");
 
-	if (answer == '1') led_on(LED1); /* enter 1 to turn on LED1 */
-	if (answer == '2') led_on(LED2); /* enter 2 to turn on LED2 */
-	if (answer == '3') led_on(LED3); /* enter 3 to turn on LED3 */
-	if (answer == '4') led_on(LED4); /* enter 4 to turn on LED4 */
+	if (answer == '1') led_toggle(LED1); /* enter 1 to turn on LED1 */
+	if (answer == '2') led_toggle(LED2); /* enter 2 to turn on LED2 */
+	if (answer == '3') led_toggle(LED3); /* enter 3 to turn on LED3 */
+	if (answer == '4') led_toggle(LED4); /* enter 4 to turn on LED4 */
 }
