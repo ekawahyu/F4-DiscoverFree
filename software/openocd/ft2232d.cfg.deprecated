@@ -7,10 +7,8 @@
 # as JTAG interface.
 #
 
-interface ftdi
-ftdi_device_desc "Dual RS232"
-ftdi_vid_pid 0x0403 0x6010
-
-ftdi_layout_init 0x0008 0x000b
-ftdi_layout_signal nTRST -data 0x0010 -oe 0x0010
-ftdi_layout_signal nSRST -data 0x0040 -oe 0x0040
+interface ft2232
+ft2232_vid_pid 0x0403 0x6010
+ft2232_device_desc "Dual RS232 A"
+ft2232_layout "usbjtag"
+ft2232_latency 2
