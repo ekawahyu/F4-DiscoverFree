@@ -18,8 +18,10 @@ CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld
 #CFLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
 #CFLAGS += -specs=nano.specs
 #CFLAGS += -u _printf_float -u _scanf_float
+CFLAGS += -nostartfiles
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
+#CFLAGS += -mfloat-abi=softfp
 
 DEFINES = -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS
 
@@ -52,6 +54,17 @@ all: lib proj
 burn-ft2232d: all
 	openocd -s $(OPENOCD_SHARE)/scripts \
             -f interface/ft2232d.cfg \
+            -f target/stm32f4x.cfg \
+            -c "init" \
+            -c "reset halt" \
+            -c "flash write_image erase $(PROJ_NAME).bin 0x08000000" \
+            -c "reset" \
+            -c "shutdown"
+
+# Flash the F4-DiscoverFree using FT2232D
+burn-ftdi: all
+	openocd -s $(OPENOCD_SHARE)/scripts \
+            -f interface/ftdi/ft2232d.cfg \
             -f target/stm32f4x.cfg \
             -c "init" \
             -c "reset halt" \

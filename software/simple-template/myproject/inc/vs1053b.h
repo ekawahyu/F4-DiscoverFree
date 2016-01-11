@@ -65,6 +65,7 @@ void vs1053b_write_data(uint8_t * buf);
 void vs1053b_soft_reset(void);
 void vs1053b_set_volume(uint16_t vol);
 uint16_t vs1053b_get_volume(void);
+void vs1053b_sine_test(void);
 
 #ifdef __cplusplus
 }

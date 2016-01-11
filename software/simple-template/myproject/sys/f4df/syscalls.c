@@ -40,6 +40,7 @@
 
 #include "led.h"
 #include "usart.h"
+#include "usbd_cdc_vcp.h"
 
 #undef errno
 extern int errno;
@@ -87,6 +88,7 @@ int _write(int fd, char *ptr, size_t len)
 	while(counter-- > 0) { // Send the character from the buffer to UART
 		while (!usart_is_tx_empty());
 		usart_send(*ptr);
+		//VCP_put_char(*ptr);
 
 		ptr++;
 	}
@@ -143,6 +145,7 @@ int _read(int fd, char *ptr, size_t len)
 {
 	int i;
 	size_t counter = 0;
+	uint8_t buf;
 
 	if(fd == STDIN_FILENO) {
 		/* do nothing */
@@ -152,6 +155,8 @@ int _read(int fd, char *ptr, size_t len)
 	for (i = 0; i < len; i++) { // Get characters from the UART
 		while (usart_is_rx_empty());
 		*ptr++ = usart_receive();
+		//while (!VCP_get_char(&buf));
+		//*ptr++ = (char) buf;
 		counter++;
 	}
 

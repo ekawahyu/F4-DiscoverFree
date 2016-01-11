@@ -34,6 +34,7 @@
  * 
  */
 
+#include "compiler.h"
 #include "stm32f4xx.h"
 #include "vs1053b.h"
 
@@ -227,4 +228,59 @@ void vs1053b_set_volume(uint16_t vol)
 uint16_t vs1053b_get_volume(void)
 {
 	return vs1053b_read_reg(SPI_VOL);
+}
+
+void vs1053b_sine_test(void)
+{
+	vs1053b_write_reg(0x0b,0X2020); // set volume
+	vs1053b_write_reg(SPI_MODE,0x0820); // choose what?
+	while( VS1053B_DREQ == 0 );
+
+	VS1053B_DCS(0);
+	vs1053b_read_write(0x53);
+	vs1053b_read_write(0xef);
+	vs1053b_read_write(0x6e);
+	vs1053b_read_write(0x24);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	Sleep(100);
+	VS1053B_DCS(1);
+
+	VS1053B_DCS(0);
+	vs1053b_read_write(0x45);
+	vs1053b_read_write(0x78);
+	vs1053b_read_write(0x69);
+	vs1053b_read_write(0x74);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	Sleep(100);
+	VS1053B_DCS(1);
+
+	VS1053B_DCS(0);
+	vs1053b_read_write(0x53);
+	vs1053b_read_write(0xef);
+	vs1053b_read_write(0x6e);
+	vs1053b_read_write(0x44);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	Sleep(100);
+	VS1053B_DCS(1);
+
+	VS1053B_DCS(0);
+	vs1053b_read_write(0x45);
+	vs1053b_read_write(0x78);
+	vs1053b_read_write(0x69);
+	vs1053b_read_write(0x74);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	vs1053b_read_write(0x00);
+	Sleep(100);
+	VS1053B_DCS(1);
 }

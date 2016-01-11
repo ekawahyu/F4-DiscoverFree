@@ -1,0 +1,2 @@
+SRCS += usb_core.c usb_dcd_int.c usb_dcd.c usbd_core.c usbd_ioreq.c usbd_req.c
+SRCS += usbd_cdc_core.c usbd_hid_core.c
