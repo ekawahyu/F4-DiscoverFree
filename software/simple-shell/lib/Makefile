@@ -5,11 +5,12 @@ AR=arm-none-eabi-ar
 
 vpath %.c src peripherals/src usb/src
 
-CFLAGS  = -g -O3 -Wall -ffunction-sections -fdata-sections
-CFLAGS += -Wl,--gc-sections
+CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld
+CFLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
+#CFLAGS += -specs=nano.specs
+#CFLAGS += -u _printf_float -u _scanf_float
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
-CFLAGS += -ffreestanding -nostdlib
 CFLAGS += -Iinc -Icmsis/inc -Iperipherals/inc -Iusb/inc -I../inc -I../usr
 
 DEFINES += -DHSE_VALUE=8000000 -DUSE_STDPERIPH_DRIVER -DUSE_USB_OTG_FS

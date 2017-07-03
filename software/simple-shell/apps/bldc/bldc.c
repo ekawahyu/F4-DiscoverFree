@@ -57,10 +57,7 @@ int bldc_app(int argc, char *argv[])
 
 	while (*++argv != NULL) {
 
-		if (*argv && !strcmp(*argv, "direction")) {
-			printf("/dev/bldc%i direction = %i\n", port_number, bldc_get_direction(port_number));
-		}
-		else if (*argv && !strcmp(*argv, "cw")) {
+		if (*argv && !strcmp(*argv, "cw")) {
 			bldc_cw(port_number);
 		}
 		else if (*argv && !strcmp(*argv, "ccw")) {
@@ -126,7 +123,6 @@ int bldc_help(int argc, char **argv)
 	printf("  position_reset\treset position to zero\n");
 	printf("  step_cw [n]\t\tstep CW n steps\n");
 	printf("  step_ccw [n]\t\tstep CCW n steps\n");
-	printf("  direction\t\tget current motor movement\n");
 	printf("  cw\t\t\tforce CW (use with caution)\n");
 	printf("  ccw\t\t\tforce CCW (use with caution)\n");
 	printf("  stop\t\t\tforce to stop\n");

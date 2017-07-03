@@ -42,7 +42,7 @@
 clock_t _times(struct tms * tp)
 {
 	if (tp) {
-	  tp->tms_utime  = 0;	/* user time */
+	  tp->tms_utime  = system_tick;	/* user time */
 	  tp->tms_stime  = system_tick;	/* system time */
 	  tp->tms_cutime = 0;	/* user time, children */
 	  tp->tms_cstime = 0;	/* system time, children */

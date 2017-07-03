@@ -58,6 +58,9 @@ SECTIONS
 		__bss_end__ = _ebss;
 	} > SRAM
 
-	__exidx_start = .;
-	__exidx_end = .;
+  .ARM.exidx : {
+    __exidx_start = .;
+    *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+    __exidx_end = .;
+  } > ROM_region
 }

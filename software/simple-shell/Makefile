@@ -4,7 +4,7 @@ SRCS = 	$(wildcard usr/*.c)
 
 # all the files will be generated with this name (main.elf, main.bin, main.hex, etc)
 
-PROJ_NAME=brushless
+PROJ_NAME=develop
 
 # that's it, no need to change anything below this line!
 
@@ -14,8 +14,10 @@ CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
 SIZE=arm-none-eabi-size
 
-CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld -ffunction-sections -fdata-sections 
-CFLAGS += -Wl,--gc-sections
+CFLAGS  = -g -O3 -Wall -Tstm32f4xx.ld
+CFLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
+#CFLAGS += -specs=nano.specs
+#CFLAGS += -u _printf_float -u _scanf_float
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
