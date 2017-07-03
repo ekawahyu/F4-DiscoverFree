@@ -1,0 +1,10 @@
+proc stm32_resethalt {} {
+	init
+	reset halt
+}
+
+proc stm32_reset {} {
+	init
+	reset
+	shutdown
+}
