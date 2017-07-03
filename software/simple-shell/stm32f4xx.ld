@@ -33,6 +33,25 @@ SECTIONS
 		_etext = .;
 	} > FLASH
 
+	/*
+	 * Stack unwinding and exception handling sections.
+	 *
+	 * ARM compilers emit object files with .ARM.extab and .ARM.exidx sections
+	 * when using C++ exceptions. Also, at least GCC emits those sections when
+	 * dividing large numbers (64-bit) in C. So we have to handle them.
+	 *
+	 * (ARM uses .ARM.extab and .ARM.exidx instead of the .eh_frame section
+	 * used on x86.)
+	 */
+	.ARM.extab : /* exception unwinding information */
+	{
+		*(.ARM.extab*)
+	} > FLASH
+	.ARM.exidx : /* index entries for section unwinding */
+	{
+		*(.ARM.exidx*)
+	} > FLASH
+
 	_sidata = .;
 	.data : AT ( _sidata )
 	{
@@ -57,7 +76,4 @@ SECTIONS
 		_ebss = .;
 		__bss_end__ = _ebss;
 	} > SRAM
-
-	__exidx_start = .;
-	__exidx_end = .;
 }

@@ -61,9 +61,11 @@ extern "C" {
 #ifndef Sleep
 #define Sleep(x)			usleep((x*1000))
 #endif
+#ifndef MAXPATHLEN
+#define MAXPATHLEN			128
+#endif
 #define __align4			__attribute__((aligned (4)))
 #define __weak				__attribute__((weak))
-#define __always_inline		__attribute__((always_inline))
 #endif
 
 #ifdef __ICCARM__
