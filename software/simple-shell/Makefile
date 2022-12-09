@@ -52,7 +52,7 @@ all: lib proj
 # Flash the F4-DiscoverFree using FT2232D
 burn-ft2232d: all
 	openocd -s $(OPENOCD_SHARE)/scripts \
-            -f interface/ft2232d.cfg \
+            -f interface/ftdi/iotlab-usb.cfg \
             -f target/stm32f4x.cfg \
             -c "init" \
             -c "reset halt" \

@@ -46,9 +46,9 @@ int servo_register(void);
 int bldc_register(void);
 int null_register(void);
 
-irq_hook_t systick_irq_hook;
-irq_hook_t com1_irq_hook;
-irq_hook_t com2_irq_hook;
+extern irq_hook_t systick_irq_hook;
+extern irq_hook_t com1_irq_hook;
+extern irq_hook_t com2_irq_hook;
 
 DEBUGMSG_VAR(debug_count);
 
